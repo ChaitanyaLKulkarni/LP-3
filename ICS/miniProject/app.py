@@ -105,6 +105,12 @@ def addAdmin():
         return str(e) + f"<br>{statement}"
 
 
+@app.route("/contact")
+def contactPage():
+    args = request.args
+    return render_template("contact.html", **args)
+
+
 @ app.route("/")
 def main():
     return redirect("/login")

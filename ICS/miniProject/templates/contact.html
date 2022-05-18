@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="static/css/foundation.css" />
+        <link rel="stylesheet" href="static/css/custom.css" />
+        <script src="static/js/vendor/modernizr.js"></script>
+
+        <title>Contact</title>
+    </head>
+    <body>
+        <div class="row">
+            <div class="large-12 columns">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="200">Name</th>
+                            <th width="130">Phone</th>
+                            <th width="200">Email</th>
+                            <th width="250">Address</th>
+                            <th width="100">Group</th>
+                            <th width="150">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table"></tbody>
+                </table>
+            </div>
+        </div>
+        <script>
+            // Get detials from search paramenter
+            var first_name = getUrlParameter("first_name");
+            var last_name = getUrlParameter("last_name");
+            var phone = getUrlParameter("phone");
+            var email = getUrlParameter("email");
+            var address = getUrlParameter("address");
+            var city = getUrlParameter("city");
+            var state = getUrlParameter("state");
+            var zipcode = getUrlParameter("zipcode");
+            var contact_group = getUrlParameter("contact_group");
+
+            renderTable();
+            // Get url parameter
+            function getUrlParameter(sParam) {
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split("&");
+                for (var i = 0; i < sURLVariables.length; i++) {
+                    var sParameterName = sURLVariables[i].split("=");
+                    if (sParameterName[0] == sParam) {
+                        return sParameterName[1];
+                    }
+                }
+            }
+
+            function renderTable() {
+                var table = document.getElementById("table");
+                table.innerHTML += `<tr>
+                    <td>
+                        <a
+                            href="/contact?first_name=${first_name}&last_name=${last_name}&phone=${phone}&email=${email}&address=${address}&city=${city}&state=${state}&zipcode=${zipcode}&contact_group=${contact_group}"
+                            >${first_name} ${last_name}</a
+                        >
+                    </td>
+                    <td>${phone}</td>
+                    <td>${email}</td>
+                    <td>
+                        <ul>
+                            <li>${address}</li>
+                            <li>
+                                ${city}, ${state} - ${zipcode}
+                            </li>
+                        </ul>
+                    </td>
+                    <td>${contact_group}</td>
+                </tr>`;
+            }
+        </script>
+    </body>
+</html>
