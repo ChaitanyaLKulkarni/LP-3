@@ -15,11 +15,7 @@ public class AES {
         MessageDigest sha = null;
         try {
             key = myKey.getBytes("UTF-8");
-            if (KEY_SIZE < 160) {
-                sha = MessageDigest.getInstance("SHA-1");
-            } else {
-                sha = MessageDigest.getInstance("SHA-256");
-            }
+            sha = MessageDigest.getInstance("SHA-256");
             key = sha.digest(key);
             key = Arrays.copyOf(key, KEY_SIZE / 8);
             secretKey = new SecretKeySpec(key, "AES");
@@ -33,7 +29,7 @@ public class AES {
     public static String encrypt(String strToEncrypt, String secret) {
         try {
             setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             byte[] enc = cipher.doFinal(strToEncrypt.getBytes("UTF-8"));
             return Base64.getEncoder().encodeToString(enc);
@@ -46,7 +42,7 @@ public class AES {
     public static String decrypt(String strToDecrypt, String secret) {
         try {
             setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+            Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             byte[] dec = cipher.doFinal(Base64.getDecoder().decode(strToDecrypt));
             return new String(dec);
@@ -59,12 +55,14 @@ public class AES {
     public static void main(String[] args) {
         final String secretKey = "shouldKeptSecret";
         String originalString = "Totally secrete message";
-        String encryptedString = AES.encrypt(originalString, secretKey);
-        String decryptedString = AES.decrypt(encryptedString, secretKey);
-        System.out.println("URL Encryption Using AES Algorithm\n------------");
-        System.out.println("Original URL : " + originalString);
-        System.out.println("Encrypted URL : " + encryptedString);
-        System.out.println("Decrypted URL : " + decryptedString);
+
+        String encryptedString = encrypt(originalString, secretKey);
+        String decryptedString = decrypt(encryptedString, secretKey);
+
+        System.out.println("Encryption Using AES Algorithm\n------------");
+        System.out.println("Original : " + originalString);
+        System.out.println("Encrypted : " + encryptedString);
+        System.out.println("Decrypted : " + decryptedString);
     }
 
 }

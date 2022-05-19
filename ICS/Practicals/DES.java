@@ -27,7 +27,7 @@ public class DES {
     public static String encrypt(String msg, String key) {
         setKey(key);
         try {
-            Cipher desCipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+            Cipher desCipher = Cipher.getInstance("DES");
             desCipher.init(Cipher.ENCRYPT_MODE, secretKey);
             byte[] enc = desCipher.doFinal(msg.getBytes("UTF-8"));
             return Base64.getEncoder().encodeToString(enc);
@@ -40,7 +40,7 @@ public class DES {
     public static String decrypt(String enc, String key) {
         setKey(key);
         try {
-            Cipher desCipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+            Cipher desCipher = Cipher.getInstance("DES");
             desCipher.init(Cipher.DECRYPT_MODE, secretKey);
             byte[] dec = desCipher.doFinal(Base64.getDecoder().decode(enc));
             return new String(dec);
